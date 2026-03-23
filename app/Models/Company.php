@@ -210,6 +210,7 @@ class Company extends Model implements HasMedia
             'payment_auto_generate' => 'YES',
             'estimate_auto_generate' => 'YES',
             'save_pdf_to_disk' => 'NO',
+            'pdf_custom_footer' => '',
             'invoice_mail_body' => $defaultInvoiceEmailBody,
             'estimate_mail_body' => $defaultEstimateEmailBody,
             'payment_mail_body' => $defaultPaymentEmailBody,

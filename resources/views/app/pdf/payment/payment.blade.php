@@ -361,6 +361,8 @@
             {!! $notes !!}
         @endif
     </div>
+
+    @include('app.pdf.partials.custom-footer')
 </body>
 
 </html>

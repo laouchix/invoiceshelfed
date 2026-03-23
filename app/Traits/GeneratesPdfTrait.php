@@ -184,4 +184,15 @@ trait GeneratesPdfTrait
 
         return $str;
     }
+
+    public function getPdfFooter()
+    {
+        $footer = CompanySetting::getSetting('pdf_custom_footer', $this->company_id);
+
+        if (! $footer) {
+            return false;
+        }
+
+        return $this->getFormattedString($footer);
+    }
 }

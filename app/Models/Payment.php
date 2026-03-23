@@ -388,6 +388,7 @@ class Payment extends Model implements HasMedia
             'company_address' => $this->getCompanyAddress(),
             'billing_address' => $this->getCustomerBillingAddress(),
             'notes' => $this->getNotes(),
+            'pdf_footer' => $this->getPdfFooter(),
             'logo' => $logo ?? null,
         ]);
 

@@ -427,6 +427,7 @@ class Estimate extends Model implements HasMedia
             'shipping_address' => $this->getCustomerShippingAddress(),
             'billing_address' => $this->getCustomerBillingAddress(),
             'notes' => $this->getNotes(),
+            'pdf_footer' => $this->getPdfFooter(),
             'taxes' => $taxes,
         ]);
 

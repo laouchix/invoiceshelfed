@@ -79,6 +79,46 @@
       :title="$t('settings.disk.save_pdf_to_disk')"
       :description="$t('settings.disk.disk_setting_description')"
     />
+
+    <BaseDivider class="mt-8 mb-6" />
+
+    <BaseInputGroup
+      :label="$t('settings.disk.pdf_footer_label')"
+      :help-text="$t('settings.disk.pdf_footer_description')"
+    >
+      <BaseTextarea
+        v-model="pdfCustomFooter"
+        rows="5"
+        autosize
+        :placeholder="$t('settings.disk.pdf_footer_placeholder')"
+      />
+    </BaseInputGroup>
+
+    <div class="mt-3 space-y-1 text-xs text-gray-500">
+      <p class="font-medium text-gray-700">
+        {{ $t('settings.disk.pdf_footer_placeholders_title') }}
+      </p>
+      <p>{{ $t('settings.disk.pdf_footer_placeholders_company') }}</p>
+      <p>{{ $t('settings.disk.pdf_footer_placeholders_contact') }}</p>
+      <p>{{ $t('settings.disk.pdf_footer_placeholders_address') }}</p>
+      <p>{{ $t('settings.disk.pdf_footer_placeholders_documents') }}</p>
+    </div>
+
+    <BaseButton
+      class="mt-4"
+      :loading="isSavingFooter"
+      :disabled="isSavingFooter"
+      @click="updatePdfFooter"
+    >
+      <template #left="slotProps">
+        <BaseIcon
+          v-if="!isSavingFooter"
+          :class="slotProps.class"
+          name="ArrowDownOnSquareIcon"
+        />
+      </template>
+      {{ $t('general.save') }}
+    </BaseButton>
   </BaseSettingCard>
 </template>
 
@@ -102,6 +142,7 @@ const { t } = useI18n()
 let disk = 'local'
 let loading = ref(false)
 let table = ref('')
+const isSavingFooter = ref(false)
 
 const fileDiskColumns = computed(() => {
   return [
@@ -140,6 +181,9 @@ const fileDiskColumns = computed(() => {
 })
 
 const savePdfToDisk = ref(companyStore.selectedCompanySettings.save_pdf_to_disk)
+const pdfCustomFooter = ref(
+  companyStore.selectedCompanySettings.pdf_custom_footer ?? '',
+)
 
 const savePdfToDiskField = computed({
   get: () => {
@@ -253,5 +297,22 @@ function removeDisk(id) {
         }
       }
     })
+}
+
+async function updatePdfFooter() {
+  isSavingFooter.value = true
+
+  try {
+    await companyStore.updateCompanySettings({
+      data: {
+        settings: {
+          pdf_custom_footer: pdfCustomFooter.value,
+        },
+      },
+      message: 'general.setting_updated',
+    })
+  } finally {
+    isSavingFooter.value = false
+  }
 }
 </script>
