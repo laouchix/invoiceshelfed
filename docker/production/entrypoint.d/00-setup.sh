@@ -45,3 +45,18 @@ if ! grep -q '^APP_KEY=[^[:space:]]' /var/www/html/.env; then
     echo "**** Generating new APP_KEY variable ****"
     ./artisan key:generate -n
 fi
+
+if [ "$AUTO_RUN_MIGRATIONS" = "true" ]; then
+    echo "**** Running database migrations ****"
+    ./artisan migrate --force
+fi
+
+if [ "$AUTO_RUN_DB_SEED" = "true" ]; then
+    echo "**** Running database seeders ****"
+    ./artisan db:seed --force
+fi
+
+if [ "$AUTO_RUN_STORAGE_LINK" = "true" ]; then
+    echo "**** Creating storage symlink ****"
+    ./artisan storage:link || true
+fi
